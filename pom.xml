@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.snaplogic</groupId>
+    <artifactId>Netezza</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>netezza</name>
+    <url>http://www.snaplogic.com</url>
+    <repositories>
+        <repository>
+            <id>Snaplogic-Maven-Repository</id>
+            <name>Snaplogic Maven Repository</name>
+            <url>http://maven.snaplogic.org/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>    
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Snaplogic-Maven-Repository</id>
+            <name>Snaplogic Maven Repository</name>
+            <url>http://maven.snaplogic.org/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>            
+        </pluginRepository>
+    </pluginRepositories>
+    
+        
+    <!-- Snap zip assembly descriptor -->
+    <build>
+        <finalName>${snap}</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+                <plugin>                
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>com.snaplogic</groupId>
+                    <artifactId>SnapPlugin</artifactId>
+                    <version>1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+                </plugin>        
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.3.1</version>                    
+                </plugin>    
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <!-- Set source level -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>               
+            <!-- Assembly instructions for creating snap zip -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <inherited>false</inherited>
+                <configuration>
+                    <descriptors>
+                        <descriptor>${basedir}/src/main/assembly/assembly.xml</descriptor>
+                    </descriptors>
+                    <finalName>${snap}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id> 
+                        <phase>package</phase> 
+                        <goals>
+                            <goal>single</goal> 
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+           <!-- Add custom Manifest.mf file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Snap plugin -->
+            <plugin>
+                <groupId>com.snaplogic</groupId>
+                <artifactId>SnapPlugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.snaplogic</groupId>
+                        <artifactId>JavaCC</artifactId>
+                        <version>1.0</version>
+                        <systemPath>${snaplogic_server}/lib/javacc.jar</systemPath>
+                        <scope>system</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.snaplogic</groupId>
+                        <artifactId>JSnAPI</artifactId>
+                        <version>1.0</version>
+                        <systemPath>${snaplogic_server}/lib/snapi.jar</systemPath>
+                        <scope>system</scope>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.httpcomponents</groupId>
+                        <artifactId>httpclient</artifactId>
+                        <version>4.0.3</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.httpcomponents</groupId>
+                        <artifactId>httpmime</artifactId>
+                        <version>4.0.3</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-mapper-asl</artifactId>
+                        <version>1.6.3</version>
+                    </dependency>    
+                    <dependency>
+                        <groupId>junit</groupId>
+                        <artifactId>junit</artifactId>
+                        <version>4.8.2</version>
+                    </dependency>                    
+                </dependencies>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>update-component-list</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>       
+        
+    <properties>
+        <!-- Platform independent build -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- Update this entry to modify your company name -->
+        <company>snaplogic</company>
+        <!-- Update this entry to modify your snap name -->
+        <snap>netezza</snap>
+        <!-- Update this entry to modify the snaplogic server location -->
+        <snaplogic_server>/Applications/snaplogic/3.5.0.20019PE</snaplogic_server>
+        <!-- Server url for deployment -->
+        <serverURL>http://localhost:8088</serverURL>
+        <!-- Please uncomment the following line to exclude these components while making MANIFEST.MF entries -->
+        <!--
+        <excluded_components>com.snaplogic.Netezza.CreateComponent, com.snaplogic.Netezza.ReadComponent, com.snaplogic.Netezza.UpdateComponent, com.snaplogic.Netezza.DeleteComponent</excluded_components>
+        -->
+        <!-- Please uncomment the following line to specify the components that needs to be added to the MANIFEST.MF entries -->
+        <!--
+        <included_components>com.snaplogic.Netezza.CreateComponent, com.snaplogic.Netezza.ReadComponent, com.snaplogic.Netezza.UpdateComponent, com.snaplogic.Netezza.DeleteComponent</included_components>
+        -->
+    </properties>    
+    
+        <!-- Dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.snaplogic</groupId>
+            <artifactId>JavaCC</artifactId>
+            <version>1.0</version>
+            <systemPath>${snaplogic_server}/lib/javacc.jar</systemPath>
+            <scope>system</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.snaplogic</groupId>
+            <artifactId>JSnAPI</artifactId>
+            <version>1.0</version>
+            <systemPath>${snaplogic_server}/lib/snapi.jar</systemPath>
+            <scope>system</scope>
+        </dependency>
+           <dependency>
+            <groupId>com.nz</groupId>
+            <artifactId>nzjdbc</artifactId>
+            <version>1.0</version>
+            
+        </dependency>
+    </dependencies>
+    </project>

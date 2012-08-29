@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-Deploy Snap</actionName>
+        <displayName>Deploy Snap</displayName>
+        <goals>
+            <goal>snap:deploy</goal>
+        </goals>
+        <properties>
+            <password>snaplogic_admin_pw</password>
+            <force>false</force>
+        </properties>        
+    </action>
+    <action>
+        <actionName>CUSTOM-Update Component List</actionName>
+        <displayName>Update Component List</displayName>
+        <goals>
+            <goal>snap:update-component-list</goal>
+        </goals>
+    </action>
+</actions>

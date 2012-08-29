@@ -1,0 +1,6 @@
+#surefire
+#Tue Aug 28 09:57:52 PDT 2012
+password=snaplogic_admin_pw
+user.dir=/Users/admin/Documents/workspace/Netezza
+localRepository=/Users/admin/.m2/repository
+basedir=/Users/admin/Documents/workspace/Netezza
