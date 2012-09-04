@@ -1,0 +1,1 @@
+mvn install:install-file -Dfile=lib/nzjdbc3.jar -DgroupId=com.nz -DartifactId=nzjdbc -Dversion=1.0 -Dpackaging=jar

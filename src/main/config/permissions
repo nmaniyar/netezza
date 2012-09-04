@@ -1,0 +1,16 @@
+# This is a sample Create Component
+com.snaplogic.Netezza.CreateComponent {
+allow java.security.AllPermission;
+}
+# This is a sample Read Component
+com.snaplogic.Netezza.ReadComponent {
+allow java.security.AllPermission;
+}
+# This is a sample Update Component
+com.snaplogic.Netezza.UpdateComponent {
+allow java.security.AllPermission;
+}
+# This is a sample Delete Component
+com.snaplogic.Netezza.DeleteComponent {
+allow java.security.AllPermission;
+}
